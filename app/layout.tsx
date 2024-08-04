@@ -1,8 +1,8 @@
 import { Suspense } from "react";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import { Authentication } from "@/components/Authentication";
-import { NavLink } from "@/components/NavLink";
+import { Authentication } from "./_components/Authentication";
+import { NavLink } from "./_components/NavLink";
 // import "./globals.css";
 import styles from "./layout.module.css";
 
