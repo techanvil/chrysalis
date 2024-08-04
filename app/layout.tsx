@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { Authentication } from "@/components/Authentication";
+import { NavLink } from "@/components/NavLink";
 // import "./globals.css";
 import styles from "./layout.module.css";
 
@@ -20,6 +21,8 @@ export default function RootLayout({
     <html lang="en">
       <body className={inter.className}>
         <nav className={styles.nav}>
+          <NavLink href="/">Home</NavLink>
+          <NavLink href="/zenhub">ZenHub</NavLink>
           <Authentication />
         </nav>
         {children}
