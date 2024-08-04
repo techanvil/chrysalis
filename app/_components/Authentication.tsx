@@ -7,10 +7,6 @@ import styles from "./Authentication.module.css";
 export async function Authentication() {
   const session = await auth();
 
-  console.log({
-    session,
-  });
-
   return (
     <div className={styles.container}>
       <UserAvatar />

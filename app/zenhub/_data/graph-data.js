@@ -166,8 +166,9 @@ export async function getAllEpics(
 }
 
 export async function getGraphData(
-  workspaceName,
-  sprintName,
+  // workspaceName,
+  workspaceId,
+  // sprintName,
   epicIssueNumber,
   endpointUrl,
   zenhubApiKey,
@@ -176,15 +177,15 @@ export async function getGraphData(
 ) {
   const gqlQuery = createGqlQuery(endpointUrl, zenhubApiKey, signal);
 
-  const {
-    viewer: {
-      searchWorkspaces: {
-        nodes: [{ id: workspaceId }],
-      },
-    },
-  } = await gqlQuery(GET_WORKSPACE_QUERY, "GetWorkSpace", {
-    workspaceName,
-  });
+  // const {
+  //   viewer: {
+  //     searchWorkspaces: {
+  //       nodes: [{ id: workspaceId }],
+  //     },
+  //   },
+  // } = await gqlQuery(GET_WORKSPACE_QUERY, "GetWorkSpace", {
+  //   workspaceName,
+  // });
 
   const {
     workspace: {
@@ -231,7 +232,7 @@ export async function getGraphData(
       pipelineName: state === "CLOSED" ? "Closed" : pipelineName,
       estimate: estimate?.value,
       sprints: sprints.nodes.map(({ name }) => name),
-      isChosenSprint: sprints.nodes.some(({ name }) => name === sprintName),
+      // isChosenSprint: sprints.nodes.some(({ name }) => name === sprintName),
     })
   );
 
@@ -283,6 +284,7 @@ function createGqlQuery(endpointUrl, zenhubApiKey, signal) {
         variables,
       }),
       signal,
+      // next: { revalidate: 10 }, // This is not working at present.
     };
 
     // TODO: Implement caching.

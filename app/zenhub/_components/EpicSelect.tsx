@@ -1,5 +1,6 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import { use, Suspense } from "react";
 import { ErrorBoundary } from "react-error-boundary";
 
@@ -14,10 +15,16 @@ export function EpicSelect({ epicsPromise }) {
 }
 
 function EpicSelectMain({ epicsPromise }) {
+  const router = useRouter();
   const epics = use(epicsPromise);
 
   return (
-    <select>
+    <select
+      onChange={(event) => {
+        router.push(`/zenhub/${event.target.value}`);
+      }}
+    >
+      <option value="">choose an epic</option>
       {epics
         .sort((a, b) => {
           if (a.title < b.title) return -1;
