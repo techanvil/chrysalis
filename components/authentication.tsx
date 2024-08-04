@@ -1,17 +1,20 @@
 import { auth } from "@/auth";
-import { SignIn } from "./sign-in";
-import { SignOut } from "./sign-out";
+import { SignIn } from "./SignIn";
+import { SignOut } from "./SignOut";
+import { UserAvatar } from "./UserAvatar";
+import styles from "./Authentication.module.css";
 
-export default async function Authentication() {
+export async function Authentication() {
   const session = await auth();
 
   console.log({
     session,
   });
 
-  if (session?.user) {
-    return <SignOut />;
-  }
-
-  return <SignIn />;
+  return (
+    <div className={styles.container}>
+      <UserAvatar />
+      {session?.user ? <SignOut /> : <SignIn />}
+    </div>
+  );
 }

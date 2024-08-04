@@ -1,6 +1,6 @@
 import Image from "next/image";
+import { Authentication } from "@/components/Authentication";
 import styles from "./page.module.css";
-import Authentication from "@/components/authentication";
 
 export default function Home() {
   return (
