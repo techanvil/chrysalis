@@ -3,6 +3,7 @@ import { EpicSelect } from "./EpicSelect";
 import styles from "./EpicChooser.module.css";
 
 export function EpicChooser() {
+  // TODO: Reorg to avoid needing to pass these in.
   const workspaceId = process.env.ZENHUB_WORKSPACE_ID;
   const endpointUrl = process.env.ZENHUB_ENDPOINT_URL;
   const zenhubApiKey = process.env.ZENHUB_API_KEY;
