@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 export function NavLink({
@@ -15,5 +16,5 @@ export function NavLink({
     return <span>{children}</span>;
   }
 
-  return <a href={href}>{children}</a>;
+  return <Link href={href}>{children}</Link>;
 }
