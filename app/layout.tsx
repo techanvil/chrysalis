@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { Authentication } from "@/components/Authentication";
@@ -25,7 +26,7 @@ export default function RootLayout({
           <NavLink href="/zenhub">ZenHub</NavLink>
           <Authentication />
         </nav>
-        {children}
+        <Suspense fallback={<div>⏳ loading...</div>}>{children}</Suspense>
       </body>
     </html>
   );
