@@ -8,5 +8,14 @@ export async function UserAvatar() {
   return (
     // eslint-disable-next-line @next/next/no-img-element
     <img src={session.user.image} alt="User Avatar" width="50" height="50" />
+    /*
+    <Image
+      src={session.user.image}
+      alt="User Avatar"
+      width={50}
+      height={50}
+      priority
+    />
+    */
   );
 }
