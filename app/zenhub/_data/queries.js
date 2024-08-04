@@ -1,7 +1,7 @@
 /**
  * Initially copied from https://github.com/techanvil/zenhub-dependency-graph/blob/main/src/data/queries.js
  *
- * TODO: Refactor to a shared library.
+ * TODO: Refactor to be TS-aware, preferably as a shared library.
  */
 
 export const GET_WORKSPACE_QUERY = gql`

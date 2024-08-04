@@ -26,7 +26,7 @@ export default function RootLayout({
           <NavLink href="/zenhub">ZenHub</NavLink>
           <Authentication />
         </nav>
-        <Suspense fallback={<div>⏳ loading...</div>}>{children}</Suspense>
+        <Suspense fallback={<p>⏳ loading...</p>}>{children}</Suspense>
       </body>
     </html>
   );

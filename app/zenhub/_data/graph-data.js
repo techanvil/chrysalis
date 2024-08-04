@@ -1,7 +1,7 @@
 /**
  * Initially copied from https://github.com/techanvil/zenhub-dependency-graph/blob/main/src/data/graph-data.js
  *
- * TODO: Refactor to a shared library.
+ * TODO: Refactor to be TS-aware, preferably as a shared library.
  */
 
 import {
@@ -207,7 +207,7 @@ export async function getGraphData(
     appSettings
   );
 
-  const d3GraphData = linkedIssues.map(
+  const epicGraphData = linkedIssues.map(
     ({
       number: id,
       title,
@@ -245,26 +245,26 @@ export async function getGraphData(
     }
   );
 
-  console.log("epicIssue", epicIssue);
-  console.log("workspace", workspaceId);
-  console.log("repository", repositoryId, repositoryGhId);
-  console.log("pipelines", pipelines);
-  console.log("linkedIssues", linkedIssues);
-  console.log("d3GraphData", d3GraphData);
+  // console.log("epicIssue", epicIssue);
+  // console.log("workspace", workspaceId);
+  // console.log("repository", repositoryId, repositoryGhId);
+  // console.log("pipelines", pipelines);
+  // console.log("linkedIssues", linkedIssues);
+  // console.log("d3GraphData", d3GraphData);
 
-  window.zdgDebugInfo = {
-    ...(window.zdgDebugInfo || {}),
-    epicIssue,
-    workspaceId,
-    repositoryId,
-    repositoryGhId,
-    pipelines,
-    linkedIssues,
-    d3GraphData,
-  };
+  // window.zdgDebugInfo = {
+  //   ...(window.zdgDebugInfo || {}),
+  //   epicIssue,
+  //   workspaceId,
+  //   repositoryId,
+  //   repositoryGhId,
+  //   pipelines,
+  //   linkedIssues,
+  //   d3GraphData,
+  // };
 
   return {
-    graphData: d3GraphData,
+    graphData: epicGraphData,
     epicIssue,
   };
 }
@@ -285,13 +285,15 @@ function createGqlQuery(endpointUrl, zenhubApiKey, signal) {
       signal,
     };
 
-    // const res = await fetch(endpointUrl, options);
-    // return (await res.json()).data;
-    const res = await cachedFetch(endpointUrl, options);
-    return res.data;
+    // TODO: Implement caching.
+    const res = await fetch(endpointUrl, options);
+    return (await res.json()).data;
+    // const res = await cachedFetch(endpointUrl, options);
+    // return res.data;
   };
 }
 
+/*
 // Cache responses for 1 hour.
 const cachedFetch = async (url, options) => {
   // Generate a unique key for the request
@@ -333,3 +335,4 @@ const cachedFetch = async (url, options) => {
   // If the request was not successful, throw an error
   throw new Error(`Request failed with status ${response.status}`);
 };
+*/
