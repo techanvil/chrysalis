@@ -1,7 +1,7 @@
 import { getGraphData } from "../_data/graph-data";
 import { EpicQueryForm } from "./_components/EpicQueryForm";
 
-const epicGraphs: { [key: string]: object } = {}; // TODO: Improve type when TS is working for GraphQL.
+const epicGraphs: { [key: string]: [] } = {}; // TODO: Improve type when TS is working for GraphQL.
 // TODO: Use unstable_cache
 
 export default function Epic() {
@@ -16,12 +16,14 @@ export default function Epic() {
     console.log("rawFormData", rawFormData);
 
     if (!epicGraphs[rawFormData.epic]) {
+      console.log("fetching graph data for epic", rawFormData.epic);
+
       // TODO: Reorg to avoid needing to pass these in.
       const workspaceId = process.env.ZENHUB_WORKSPACE_ID;
       const endpointUrl = process.env.ZENHUB_ENDPOINT_URL;
       const zenhubApiKey = process.env.ZENHUB_API_KEY;
 
-      epicGraphs[rawFormData.epic] = await getGraphData(
+      const { graphData } = await getGraphData(
         workspaceId,
         parseInt(rawFormData.epic, 10),
         endpointUrl,
@@ -31,9 +33,16 @@ export default function Epic() {
           showNonEpicBlockedIssues: false,
         }
       );
+
+      epicGraphs[rawFormData.epic] = graphData;
+    } else {
+      console.log("using cached graph data for epic", rawFormData.epic);
     }
 
-    console.log("epicGraphs[rawFormData.epic]", epicGraphs[rawFormData.epic]);
+    console.log("epicGraph", {
+      epic: rawFormData.epic,
+      length: epicGraphs[rawFormData.epic].length,
+    });
   }
 
   return <EpicQueryForm submitEpicQuery={submitEpicQuery} />;
