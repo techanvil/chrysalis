@@ -1,58 +1,59 @@
+// import { cache } from "react";
+import { unstable_cache } from "next/cache";
 import { sendMessage } from "@/gemini/send-message";
 import { getGraphData } from "../_data/graph-data";
 import { EpicQueryForm } from "./_components/EpicQueryForm";
 
-const epicGraphs: { [key: string]: [] } = {}; // TODO: Improve type when TS is working for GraphQL.
-// TODO: Use unstable_cache
+const getCachedGraphData = unstable_cache(
+  async (epic: number) =>
+    getGraphData(
+      process.env.ZENHUB_WORKSPACE_ID,
+      epic,
+      process.env.ZENHUB_ENDPOINT_URL,
+      process.env.ZENHUB_API_KEY,
+      undefined, // no signal
+      {
+        showNonEpicBlockedIssues: false,
+      }
+    ),
+  ["get-graph-data"],
+  {
+    revalidate: 3600, // 1 hour
+  }
+);
 
-export default function Epic() {
-  async function submitEpicQuery(epic: string, formData: FormData) {
+export default function Epic({
+  params: { epic },
+}: {
+  params: { epic: string };
+}) {
+  async function submitEpicQuery(formData: FormData) {
     "use server";
 
     const rawFormData = {
-      // epic: formData.get("epic") as string,
       query: formData.get("query") as string,
     };
 
     console.log("rawFormData", rawFormData);
 
-    if (!epicGraphs[epic]) {
-      console.log("fetching graph data for epic", epic);
-
-      // TODO: Reorg to avoid needing to pass these in.
-      const workspaceId = process.env.ZENHUB_WORKSPACE_ID;
-      const endpointUrl = process.env.ZENHUB_ENDPOINT_URL;
-      const zenhubApiKey = process.env.ZENHUB_API_KEY;
-
-      const { graphData } = await getGraphData(
-        workspaceId,
-        parseInt(epic, 10),
-        endpointUrl,
-        zenhubApiKey,
-        undefined, // no signal
-        {
-          showNonEpicBlockedIssues: false,
-        }
-      );
-
-      epicGraphs[epic] = graphData;
-    } else {
-      console.log("using cached graph data for epic", epic);
-    }
+    const { graphData } = await getCachedGraphData(parseInt(epic, 10));
 
     console.log("epicGraph", {
       epic: epic,
-      length: epicGraphs[epic].length,
+      length: graphData.length,
     });
 
-    const response = await sendMessage(
-      "This json describes the epic being queried\n" +
-        JSON.stringify(epicGraphs[epic]) +
-        `\n${rawFormData.query}`
-    );
+    // const response = await sendMessage(
+    //   "This json describes the epic being queried\n" +
+    //     // JSON.stringify(epicGraphs[epic]) +
+    //     JSON.stringify(graphData) +
+    //     `\n${rawFormData.query}`
+    // );
 
-    console.log("response", response);
+    // console.log("response", response);
   }
+
+  console.log("rendering epic page");
 
   return <EpicQueryForm submitEpicQuery={submitEpicQuery} />;
 }

@@ -175,6 +175,8 @@ export async function getGraphData(
   signal,
   appSettings
 ) {
+  console.log("getGraphData", workspaceId, epicIssueNumber);
+
   const gqlQuery = createGqlQuery(endpointUrl, zenhubApiKey, signal);
 
   // const {
