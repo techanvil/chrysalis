@@ -184,6 +184,6 @@ export const GET_ALL_EPICS = gql`
 `;
 
 // For the sake of syntax highlighting:
-function gql(strings) {
+function gql(strings: TemplateStringsArray) {
   return strings[0];
 }

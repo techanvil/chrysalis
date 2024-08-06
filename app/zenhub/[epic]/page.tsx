@@ -1,8 +1,10 @@
 // import { cache } from "react";
-import { unstable_cache } from "next/cache";
-import { sendMessage } from "@/gemini/send-message";
+import { revalidatePath, unstable_cache } from "next/cache";
+import { MDXRemote } from "next-mdx-remote/rsc";
+import { getChat } from "@/gemini/chat-factory";
 import { getGraphData } from "../_data/graph-data";
 import { EpicQueryForm } from "./_components/EpicQueryForm";
+import { auth } from "@/auth";
 
 const getCachedGraphData = unstable_cache(
   async (epic: number) =>
@@ -21,6 +23,15 @@ const getCachedGraphData = unstable_cache(
     revalidate: 3600, // 1 hour
   }
 );
+
+interface EpicChatEntry {
+  userName?: string | null;
+  query: string;
+  response: string;
+}
+
+// TODO: Store this in a database.
+const epicChats: { [epic: string]: EpicChatEntry[] } = {};
 
 export default function Epic({
   params: { epic },
@@ -43,17 +54,45 @@ export default function Epic({
       length: graphData.length,
     });
 
-    // const response = await sendMessage(
-    //   "This json describes the epic being queried\n" +
-    //     // JSON.stringify(epicGraphs[epic]) +
-    //     JSON.stringify(graphData) +
-    //     `\n${rawFormData.query}`
-    // );
+    const { chatSession, sendMessage } = getChat(
+      "You are a data analyst tasked with querying a JSON dataset. The dataset represents an epic, across a series of sprints. Reports should be concise and insightful, and formatted using Markdown.\n" +
+        "Here is the data:\n" +
+        JSON.stringify(graphData)
+    );
 
-    // console.log("response", response);
+    const response = await sendMessage(rawFormData.query);
+
+    const session = await auth();
+
+    epicChats[epic] = epicChats[epic] || [];
+    epicChats[epic].push({
+      userName: session?.user?.name,
+      query: rawFormData.query,
+      response,
+    });
+
+    // console.log({
+    //   epicChats,
+    //   chatSessionHistory: await chatSession.getHistory(),
+    // });
+
+    revalidatePath(`/zenhub/${epic}`, "page");
   }
 
   console.log("rendering epic page");
 
-  return <EpicQueryForm submitEpicQuery={submitEpicQuery} />;
+  return (
+    <>
+      {epicChats[epic] &&
+        epicChats[epic].map(({ query, response }, index) => (
+          <div key={index}>
+            <div>{query}</div>
+            <div>
+              <MDXRemote source={response} />
+            </div>
+          </div>
+        ))}
+      <EpicQueryForm submitEpicQuery={submitEpicQuery} />
+    </>
+  );
 }

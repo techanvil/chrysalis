@@ -11,7 +11,7 @@ import {
   GET_ISSUE_BY_NUMBER_QUERY,
   GET_ALL_EPICS,
   GET_ALL_ORGANIZATIONS,
-} from "./queries.js";
+} from "./queries";
 
 function getNonEpicIssues(issues, relationshipProperty) {
   return issues.map((issue) =>
