@@ -1,0 +1,6 @@
+.zdg-chat-container {
+  ol,
+  ul {
+    padding: revert;
+  }
+}

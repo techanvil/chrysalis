@@ -1,3 +1,13 @@
+## NPM link to build with Zenhub Dependency Graph
+
+```sh
+npm link [path to]/zenhub-dependency-graph
+cd [path to]/zenhub-dependency-graph
+npm link [path to]/chrysalis/node_modules/react
+```
+
+---
+
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started

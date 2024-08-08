@@ -13,6 +13,8 @@ export const metadata: Metadata = {
   description: "A place where things might happen.",
 };
 
+// TODO: Show "under construction" for production.
+
 export default function RootLayout({
   children,
 }: Readonly<{

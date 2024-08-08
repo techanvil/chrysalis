@@ -71,10 +71,8 @@ export default function Epic({
       response,
     });
 
-    // console.log({
-    //   epicChats,
-    //   chatSessionHistory: await chatSession.getHistory(),
-    // });
+    // const chatHistory = await chatSession.getHistory();
+    // console.log("chatHistory", chatHistory);
 
     revalidatePath(`/zenhub/${epic}`, "page");
   }
