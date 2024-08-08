@@ -1,11 +1,13 @@
 ### Notes
 
-This currently requires the use of `npm link` in order to build with the Zenhub Dependency Graph integrated.
+This currently requires the use of `npm link` in order to build with the integrated [Zenhub Dependency Graph](https://github.com/techanvil/zenhub-dependency-graph/).
 
 ```sh
-npm link [path to]/zenhub-dependency-graph
-cd [path to]/zenhub-dependency-graph
-npm link [path to]/chrysalis/node_modules/react
+# Assuming the repos are cloned in the same directory:
+
+npm link ../zenhub-dependency-graph
+cd ../zenhub-dependency-graph
+npm link ../chrysalis/node_modules/react
 ```
 
 ---
