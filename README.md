@@ -1,4 +1,6 @@
-## NPM link to build with Zenhub Dependency Graph
+### Notes
+
+This currently requires the use of `npm link` in order to build with the Zenhub Dependency Graph integrated.
 
 ```sh
 npm link [path to]/zenhub-dependency-graph
