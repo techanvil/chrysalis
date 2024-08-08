@@ -17,6 +17,12 @@ export async function submitEpicQuery(
 ): Promise<EpicChatEntry> {
   "use server";
 
+  const session = await auth();
+
+  if (!session) {
+    throw new Error("Not authenticated");
+  }
+
   console.log("submitEpicQuery", {
     epicGraphDataLength: graphData.length,
     query,
@@ -29,8 +35,6 @@ export async function submitEpicQuery(
   );
 
   const response = await sendMessage(query);
-
-  const session = await auth();
 
   return {
     userName: session?.user?.name,
