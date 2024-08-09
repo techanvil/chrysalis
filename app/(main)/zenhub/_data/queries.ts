@@ -4,6 +4,8 @@
  * TODO: Refactor to be TS-aware, preferably as a shared library.
  */
 
+import { graphql } from "@/gql";
+
 export const GET_WORKSPACE_QUERY = gql`
   query GetWorkSpace($workspaceName: String!) {
     viewer {
@@ -182,6 +184,22 @@ export const GET_ALL_EPICS = gql`
     }
   }
 `;
+
+export const getAllEpicsQueryDocument = graphql(`
+  query GetAllEpics($workspaceId: ID!) {
+    workspace(id: $workspaceId) {
+      epics {
+        nodes {
+          issue {
+            number
+            title
+            closedAt
+          }
+        }
+      }
+    }
+  }
+`);
 
 // For the sake of syntax highlighting:
 function gql(strings: TemplateStringsArray) {

@@ -3,14 +3,19 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
-    "dev:turbo": "next dev --turbo",
+    "dev": "concurrently \"next dev\" \"npm run generate -- --watch\"",
+    "dev:turbo": "npm run dev -- --turbo",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "generate": "graphql-codegen --config codegen.ts",
+    "predev": "npm run generate",
+    "prebuild": "npm run generate"
   },
   "dependencies": {
     "@google/generative-ai": "^0.16.0",
+    "concurrently": "^8.2.2",
+    "graphql": "^16.9.0",
     "next": "14.2.5",
     "next-auth": "^5.0.0-beta.20",
     "next-mdx-remote": "^5.0.0",
@@ -22,11 +27,13 @@
     "use-debounce": "^10.0.2"
   },
   "devDependencies": {
+    "@graphql-codegen/cli": "^5.0.2",
+    "@parcel/watcher": "^2.4.1",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
     "eslint": "^8",
     "eslint-config-next": "14.2.5",
-    "typescript": "^5"
+    "typescript": "^5.5.4"
   }
 }
