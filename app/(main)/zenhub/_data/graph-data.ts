@@ -1,8 +1,44 @@
 /**
  * Initially copied from https://github.com/techanvil/zenhub-dependency-graph/blob/main/src/data/graph-data.js
  *
- * TODO: Refactor to be TS-aware, preferably as a shared library.
+ * TODO: Refactoring to be TS-aware, preferably as a shared library.
  */
+
+import { createClient, fetchExchange } from "urql";
+import { authExchange } from "@urql/exchange-auth";
+import { registerUrql } from "@urql/next/rsc";
+
+const makeClient = () => {
+  if (!process.env.ZENHUB_ENDPOINT_URL) {
+    throw new Error("ZENHUB_ENDPOINT_URL is required");
+  }
+
+  return createClient({
+    url: process.env.ZENHUB_ENDPOINT_URL,
+    exchanges: [
+      authExchange(async (utils) => {
+        return {
+          addAuthToOperation(operation) {
+            if (!process.env.ZENHUB_API_KEY) return operation;
+            return utils.appendHeaders(operation, {
+              Authorization: `Bearer ${process.env.ZENHUB_API_KEY}`,
+            });
+          },
+          didAuthError(error, operation) {
+            console.log("didAuthError", { error, operation });
+
+            return !!error;
+          },
+          async refreshAuth() {},
+        };
+      }),
+      fetchExchange,
+    ],
+    // exchanges: [cacheExchange, fetchExchange],
+  });
+};
+
+const { getClient } = registerUrql(makeClient);
 
 import {
   GET_WORKSPACE_QUERY,
@@ -11,6 +47,8 @@ import {
   GET_ISSUE_BY_NUMBER_QUERY,
   GET_ALL_EPICS,
   GET_ALL_ORGANIZATIONS,
+  getAllEpicsQueryDocument,
+  // getAllEpicsQueryDocument,
 } from "./queries";
 
 function getNonEpicIssues(issues, relationshipProperty) {
@@ -146,24 +184,47 @@ export async function getWorkspaces(
   );
 }
 
-export async function getAllEpics(
-  workspaceId,
-  endpointUrl,
-  zenhubApiKey,
-  signal
-) {
-  const gqlQuery = createGqlQuery(endpointUrl, zenhubApiKey, signal);
+// export async function getAllEpics(
+//   workspaceId,
+//   endpointUrl,
+//   zenhubApiKey,
+//   signal
+// ) {
+//   const gqlQuery = createGqlQuery(endpointUrl, zenhubApiKey, signal);
+
+//   const {
+//     workspace: {
+//       epics: { nodes: epics },
+//     },
+//   } = await gqlQuery(GET_ALL_EPICS, "GetAllEpics", {
+//     workspaceId,
+//   });
+
+//   return epics.map((epic) => epic.issue);
+// }
+
+export async function getAllEpics(workspaceId: string) {
+  const result = await getClient().query(getAllEpicsQueryDocument, {
+    workspaceId,
+  });
+
+  if (!result.data?.workspace?.epics?.nodes) {
+    // TODO: Handle error
+    return [];
+  }
 
   const {
     workspace: {
       epics: { nodes: epics },
     },
-  } = await gqlQuery(GET_ALL_EPICS, "GetAllEpics", {
-    workspaceId,
-  });
+  } = result.data;
 
   return epics.map((epic) => epic.issue);
 }
+
+// export function useAllEpics() {
+//   const [result] = useQuery({ query: getAllEpicsQueryDocument });
+// }
 
 export async function getGraphData(
   // workspaceName,

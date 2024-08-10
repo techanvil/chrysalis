@@ -1,8 +1,5 @@
-"""
-Patched version of the ZenHub schema to support `epicIssueByInfo` field which seems to have been removed from the online schema.
-
-TODO: Address this in a more robust way.
-"""
+# Patched version of the ZenHub schema to support `epicIssueByInfo` field which seems to have been removed from the online schema.
+# TODO: Address this in a more robust way.
 
 """
 Requires that exactly one field must be supplied and that field must not be `null`.
