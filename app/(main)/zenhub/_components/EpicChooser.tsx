@@ -37,6 +37,7 @@ export function EpicChooser() {
   const endpointUrl = process.env.ZENHUB_ENDPOINT_URL;
   const zenhubApiKey = process.env.ZENHUB_API_KEY;
 
+  // TODO: Use async/await instead of .then
   const epicsPromise = getCachedEpics().then((epics) =>
     epics.filter(({ closedAt }) => !closedAt)
   );

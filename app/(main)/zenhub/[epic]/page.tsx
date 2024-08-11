@@ -7,17 +7,15 @@ import { EpicQueryForm } from "./_components/EpicQueryForm";
 import { auth } from "@/auth";
 
 const getCachedGraphData = unstable_cache(
-  async (epic: number) =>
-    getGraphData(
-      process.env.ZENHUB_WORKSPACE_ID,
-      epic,
-      process.env.ZENHUB_ENDPOINT_URL,
-      process.env.ZENHUB_API_KEY,
-      undefined, // no signal
-      {
-        showNonEpicBlockedIssues: false,
-      }
-    ),
+  async (epic: number) => {
+    if (!process.env.ZENHUB_WORKSPACE_ID) {
+      throw new Error("ZENHUB_WORKSPACE_ID is not set");
+    }
+
+    return getGraphData(process.env.ZENHUB_WORKSPACE_ID, epic, {
+      showNonEpicBlockedIssues: false,
+    });
+  },
   ["get-graph-data"],
   {
     revalidate: 3600, // 1 hour
@@ -47,7 +45,14 @@ export default function Epic({
 
     console.log("rawFormData", rawFormData);
 
-    const { graphData } = await getCachedGraphData(parseInt(epic, 10));
+    const result = await getCachedGraphData(parseInt(epic, 10));
+
+    if (!result) {
+      console.error("No graph data");
+      return;
+    }
+
+    const { graphData } = result;
 
     console.log("epicGraph", {
       epic: epic,

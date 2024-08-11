@@ -1,7 +1,7 @@
 /**
  * Initially copied from https://github.com/techanvil/zenhub-dependency-graph/blob/main/src/data/queries.js
  *
- * TODO: Refactor to be TS-aware, preferably as a shared library.
+ * TODO: Extract to a shared library.
  */
 
 import { graphql } from "@/gql";
@@ -32,7 +32,7 @@ export const GET_WORKSPACE_QUERY = gql`
   }
 `;
 
-export const GET_REPO_AND_PIPELINES_QUERY = gql`
+export const getRepoAndPipelinesQueryDocument = graphql(`
   query GetRepoAndPipelines($workspaceId: ID!) {
     workspace(id: $workspaceId) {
       defaultRepository {
@@ -46,9 +46,52 @@ export const GET_REPO_AND_PIPELINES_QUERY = gql`
       }
     }
   }
-`;
+`);
 
-export const GET_EPIC_LINKED_ISSUES_QUERY = gql`
+/*
+export const linkedIssuesFragment = graphql(`
+  fragment LinkedIssuesFragment on IssueConnection {
+    nodes {
+      number
+      title
+      htmlUrl
+      state
+      assignees {
+        nodes {
+          login
+          # name
+        }
+      }
+      blockingIssues {
+        nodes {
+          number
+        }
+      }
+      blockedIssues {
+        nodes {
+          number
+        }
+      }
+      pipelineIssue(workspaceId: $workspaceId) {
+        pipeline {
+          name
+        }
+      }
+      estimate {
+        value
+      }
+      sprints {
+        nodes {
+          # id
+          name
+        }
+      }
+    }
+  }
+`);
+*/
+
+export const getEpicLinkedIssuesQueryDocument = graphql(`
   query GetEpicLinkedIssues(
     $workspaceId: ID!
     $repositoryId: ID!
@@ -103,9 +146,9 @@ export const GET_EPIC_LINKED_ISSUES_QUERY = gql`
       }
     }
   }
-`;
+`);
 
-export const GET_ISSUE_BY_NUMBER_QUERY = gql`
+export const getIssueByNumberQueryDocument = graphql(`
   query GetIssueByNumber(
     $workspaceId: ID!
     $repositoryGhId: Int!
@@ -148,7 +191,7 @@ export const GET_ISSUE_BY_NUMBER_QUERY = gql`
       }
     }
   }
-`;
+`);
 
 export const GET_ALL_ORGANIZATIONS = gql`
   query GetAllOrganizations {
@@ -162,22 +205,6 @@ export const GET_ALL_ORGANIZATIONS = gql`
               id
               name
             }
-          }
-        }
-      }
-    }
-  }
-`;
-
-export const GET_ALL_EPICS = gql`
-  query GetAllEpics($workspaceId: ID!) {
-    workspace(id: $workspaceId) {
-      epics {
-        nodes {
-          issue {
-            number
-            title
-            closedAt
           }
         }
       }
