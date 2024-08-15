@@ -52,6 +52,7 @@ export default function ZenHubDependencyGraphPage() {
 
           return (
             <div className={`${styles.container} zdg-chat-container`}>
+              {!latestChatEntry && <p>⏳ loading...</p>}
               {latestChatEntry && (
                 <Markdown remarkPlugins={[remarkGfm]}>
                   {latestChatEntry.response}
