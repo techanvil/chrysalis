@@ -5,6 +5,7 @@ import { Authentication } from "./_components/Authentication";
 import { NavLink } from "./_components/NavLink";
 // import "./globals.css";
 import styles from "./layout.module.css";
+import { UnderConstruction } from "./_components/UnderConstruction";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -23,12 +24,14 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <nav className={styles.nav}>
-          <NavLink href="/">Home</NavLink>
-          <NavLink href="/zenhub">ZenHub</NavLink>
-          <Authentication />
-        </nav>
-        <Suspense fallback={<p>⏳ loading...</p>}>{children}</Suspense>
+        <UnderConstruction>
+          <nav className={styles.nav}>
+            <NavLink href="/">Home</NavLink>
+            <NavLink href="/zenhub">ZenHub</NavLink>
+            <Authentication />
+          </nav>
+          <Suspense fallback={<p>⏳ loading...</p>}>{children}</Suspense>
+        </UnderConstruction>
       </body>
     </html>
   );
