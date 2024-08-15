@@ -49,42 +49,40 @@ export const getRepoAndPipelinesQueryDocument = graphql(`
 `);
 
 /*
-export const linkedIssuesFragment = graphql(`
-  fragment LinkedIssuesFragment on IssueConnection {
-    nodes {
-      number
-      title
-      htmlUrl
-      state
-      assignees {
-        nodes {
-          login
-          # name
-        }
+export const EpicIssue_IssueFragment = graphql(`
+  fragment EpicIssue_IssueFragment on Issue {
+    number
+    title
+    htmlUrl
+    state
+    assignees {
+      nodes {
+        login
+        # name
       }
-      blockingIssues {
-        nodes {
-          number
-        }
+    }
+    blockingIssues {
+      nodes {
+        number
       }
-      blockedIssues {
-        nodes {
-          number
-        }
+    }
+    blockedIssues {
+      nodes {
+        number
       }
-      pipelineIssue(workspaceId: $workspaceId) {
-        pipeline {
-          name
-        }
+    }
+    pipelineIssue(workspaceId: $workspaceId) {
+      pipeline {
+        name
       }
-      estimate {
-        value
-      }
-      sprints {
-        nodes {
-          # id
-          name
-        }
+    }
+    estimate {
+      value
+    }
+    sprints {
+      nodes {
+        # id
+        name
       }
     }
   }
@@ -109,6 +107,7 @@ export const getEpicLinkedIssuesQueryDocument = graphql(`
       filters: { repositoryIds: [$repositoryId], pipelineIds: $pipelineIds }
     ) {
       nodes {
+        # ...EpicIssue_IssueFragment
         number
         title
         htmlUrl
