@@ -26,6 +26,7 @@ export function ZenHubDependencyGraph({
       authentication={{
         session,
         signIn: () => signIn("google"),
+        signInLabel: "Sign in with Google",
         // signIn("google", { redirectTo: "/zenhub-dependency-graph" }),
         signOut,
       }}
