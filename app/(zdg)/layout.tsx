@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Suspense } from "react";
 
 export const metadata: Metadata = {
   title: "Zenhub Dependency Graph",
@@ -15,7 +16,9 @@ export default function RootLayout({
       <head>
         <script defer src="/zdg/svg-pan-zoom.js"></script>
       </head>
-      <body>{children}</body>
+      <body>
+        <Suspense fallback={<p>⏳ loading...</p>}>{children}</Suspense>
+      </body>
     </html>
   );
 }
