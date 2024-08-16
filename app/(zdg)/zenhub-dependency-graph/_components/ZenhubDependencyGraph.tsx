@@ -32,6 +32,10 @@ export function ZenHubDependencyGraph({
       panel={{
         buttonTitle: "Gemini",
         PanelComponent: ({ graphData }) => {
+          if (!session) {
+            return <p>⚠️ Please sign in to use this feature.</p>;
+          }
+
           const [latestChatEntry, setLatestChatEntry] =
             useState<EpicChatEntry | null>(null);
 
