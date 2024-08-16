@@ -37,6 +37,10 @@ export function ZenHubDependencyGraph({
             return <p>⚠️ Please sign in to use this feature.</p>;
           }
 
+          if (!graphData?.length) {
+            return <p>⚠️ No graph data available.</p>;
+          }
+
           const [latestChatEntry, setLatestChatEntry] =
             useState<EpicChatEntry | null>(null);
 
