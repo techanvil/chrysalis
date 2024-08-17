@@ -19,7 +19,7 @@ export async function submitEpicQuery(
 
   const session = await auth();
 
-  if (!session) {
+  if (!session?.user?.email) {
     throw new Error("Not authenticated");
   }
 
@@ -29,6 +29,7 @@ export async function submitEpicQuery(
   });
 
   const { chatSession, sendMessage } = getChat(
+    session.user.email,
     // "You are a data analyst tasked with querying a JSON dataset. The dataset represents an epic, across a series of sprints. Reports should be concise and insightful, no more than 350 words, and formatted using Markdown.\n" +
     // "You are a data analyst tasked with querying a JSON dataset. The dataset represents an epic, across a series of sprints. Reports should be within 300 words and formatted using Markdown.\n" +
     "You are a data analyst tasked with querying a JSON dataset. The dataset represents an epic, across a series of sprints. Reports should be concise, insightful and fun, no more than 350 words, and formatted using Markdown.\n" +

@@ -59,15 +59,21 @@ export default function Epic({
       length: graphData.length,
     });
 
+    const session = await auth();
+
+    if (!session?.user?.email) {
+      console.error("Not authenticated");
+      return;
+    }
+
     const { chatSession, sendMessage } = getChat(
+      session.user.email,
       "You are a data analyst tasked with querying a JSON dataset. The dataset represents an epic, across a series of sprints. Reports should be concise and insightful, and formatted using Markdown.\n" +
         "Here is the data:\n" +
         JSON.stringify(graphData)
     );
 
     const response = await sendMessage(rawFormData.query);
-
-    const session = await auth();
 
     epicChats[epic] = epicChats[epic] || [];
     epicChats[epic].push({
