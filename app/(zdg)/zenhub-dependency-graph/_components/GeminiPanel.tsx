@@ -54,16 +54,14 @@ export function GeminiPanel({ graphData }: { graphData: GraphData }) {
   }, [graphData]); // Omit debouncedQueryEpic to avoid infinite loop.
   // }, [graphData, debouncedQueryEpic]);
 
-  const scrollWrapperRef = useRef<HTMLDivElement>(null);
-  const textareaRef = useRef<HTMLTextAreaElement>(null);
-
   useEffect(() => {
     // Scroll the top of the latest chat entry to the top of the scrollable element.
-    const scrollWrapper = scrollWrapperRef.current;
+    const scrollWrapper = document.querySelector(".panel-scroll-wrapper");
 
     if (scrollWrapper) {
+      const offset = chatHistory.length % 2 === 0 ? 1 : 2;
       const latestChatEntry = scrollWrapper.querySelector(
-        ".zdg-chat-entry-" + (chatHistory.length - 1)
+        ".zdg-chat-entry-" + (chatHistory.length - offset)
       );
 
       if (latestChatEntry) {
@@ -77,6 +75,8 @@ export function GeminiPanel({ graphData }: { graphData: GraphData }) {
       }
     }
   }, [chatHistory]);
+
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   function handleSendMessage() {
     if (textareaRef.current) {
@@ -100,49 +100,47 @@ export function GeminiPanel({ graphData }: { graphData: GraphData }) {
   }
 
   return (
-    <div ref={scrollWrapperRef} className={styles.scrollWrapper}>
-      <div className={`${styles.container} zdg-chat-container`}>
-        {chatHistory.length === 0 && <p>⏳ loading...</p>}
-        {chatHistory.length > 0 && (
-          <>
-            {chatHistory.map((chatEntry, index) => (
-              <>
-                <Markdown
-                  className={`zdg-chat-entry-${index}`}
-                  remarkPlugins={[remarkGfm]}
-                >
-                  {chatEntry.response}
-                </Markdown>
-                {index < chatHistory.length - 1 && (
-                  <div className={styles.chatEntryDivider} />
-                )}
-              </>
-            ))}
-            {submittingQuery && <p>⏳ submitting query...</p>}
-            <div className={styles.messageBox}>
-              <textarea
-                ref={textareaRef}
-                onKeyDown={(event) => {
-                  if (event.key === "Enter" && !event.shiftKey) {
-                    event.preventDefault();
-                    console.log("Enter pressed");
-
-                    handleSendMessage();
-                  }
-                }}
-                placeholder="Tell me more..."
-              ></textarea>
-              <button
-                onClick={handleSendMessage}
-                disabled={submittingQuery}
-                aria-label="Enter"
+    <div className={`${styles.container} zdg-chat-container`}>
+      {chatHistory.length === 0 && <p>⏳ loading...</p>}
+      {chatHistory.length > 0 && (
+        <>
+          {chatHistory.map((chatEntry, index) => (
+            <>
+              <Markdown
+                className={`${styles.chatEntry} zdg-chat-entry-${index}`}
+                remarkPlugins={[remarkGfm]}
               >
-                &#9166;
-              </button>
-            </div>
-          </>
-        )}
-      </div>
+                {chatEntry.response}
+              </Markdown>
+              {index < chatHistory.length - 1 && (
+                <div className={styles.chatEntryDivider} />
+              )}
+            </>
+          ))}
+          {submittingQuery && <p>⏳ submitting query...</p>}
+          <div className={styles.messageBox}>
+            <textarea
+              ref={textareaRef}
+              onKeyDown={(event) => {
+                if (event.key === "Enter" && !event.shiftKey) {
+                  event.preventDefault();
+                  console.log("Enter pressed");
+
+                  handleSendMessage();
+                }
+              }}
+              placeholder="Tell me more..."
+            ></textarea>
+            <button
+              onClick={handleSendMessage}
+              disabled={submittingQuery}
+              aria-label="Enter"
+            >
+              &#9166;
+            </button>
+          </div>
+        </>
+      )}
     </div>
   );
 }
