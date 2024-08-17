@@ -29,6 +29,8 @@ if (!apiKey) {
 
 const genAI = new GoogleGenerativeAI(apiKey);
 
+// TODO: Looks like this gets re-created on every full page request. Find a way to cache it properly, on a per-user basis.
+// Set limits to avoid hogging system resources.
 const chats: Record<
   string,
   {
