@@ -9,18 +9,10 @@ import "zenhub-dependency-graph/src/index.css";
 import { submitEpicQuery, EpicChatEntry } from "../_actions/submit-epic-query";
 import { useDebouncedCallback } from "use-debounce";
 import styles from "./GeminiPanel.module.css";
-
-type GraphData = object[]; // TODO: Fix type.
+import { GraphData } from "./types";
 
 export function GeminiPanel({ graphData }: { graphData: GraphData }) {
   const session = useSession();
-  if (!session.data) {
-    return <p>⚠️ Please sign in to use this feature.</p>;
-  }
-
-  if (!graphData?.length) {
-    return <p>⚠️ No graph data available.</p>;
-  }
 
   const [chatHistory, setChatHistory] = useState<EpicChatEntry[]>([]);
   const [submittingQuery, setSubmittingQuery] = useState(false);

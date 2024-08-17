@@ -6,6 +6,7 @@ import { signIn, signOut, SessionProvider } from "next-auth/react";
 import "zenhub-dependency-graph/src/index.css";
 import { Session } from "next-auth";
 import { GeminiPanel } from "./GeminiPanel";
+import { GraphData } from "./types";
 
 const DynamicApp = dynamic(() => import("zenhub-dependency-graph/src/App"), {
   ssr: false,
@@ -28,7 +29,17 @@ export function ZenHubDependencyGraph({
         }}
         panel={{
           buttonTitle: "Gemini",
-          PanelComponent: GeminiPanel,
+          PanelComponent: ({ graphData }: { graphData: GraphData }) => {
+            if (!session) {
+              return <p>⚠️ Please sign in to use this feature.</p>;
+            }
+
+            if (!graphData?.length) {
+              return <p>⚠️ No graph data available.</p>;
+            }
+
+            return <GeminiPanel graphData={graphData} />;
+          },
         }}
       />
     </SessionProvider>

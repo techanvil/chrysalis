@@ -29,8 +29,8 @@ if (!apiKey) {
 
 const genAI = new GoogleGenerativeAI(apiKey);
 
-// TODO: Looks like this gets re-created on every full page request. Find a way to cache it properly, on a per-user basis.
-// Set limits to avoid hogging system resources.
+// TODO: Cache this on a per-user basis.
+// Set limits to avoid hogging system resource. Cache to disk/DB.
 const chats: Record<
   string,
   {
@@ -40,16 +40,22 @@ const chats: Record<
   }
 > = {};
 
+console.log("Created generative AI instance and chat cache");
+
 // const systemInstruction =
 // "You are a data analyst tasked with querying a dataset. The dataset represents an epic, across a series of sprints. Reports should be concise and insightful, and formatted using Markdown.";
 // "You are a data scientist tasked with extracting insights from a dataset.",
 
 export function getChat(systemInstruction: string) {
-  console.log("Getting model...", { systemInstruction });
+  // console.log("Getting model...", { systemInstruction });
 
   if (chats[systemInstruction]) {
+    console.log("Reusing model");
+
     return chats[systemInstruction];
   }
+
+  console.log("Creating model");
 
   const model = genAI.getGenerativeModel({
     model: "gemini-1.5-flash",
@@ -76,7 +82,7 @@ export function getChat(systemInstruction: string) {
     chatSession,
     sendMessage: async (message: string) => {
       const result = await chatSession.sendMessage(message);
-      console.log(result.response.text());
+      // console.log(result.response.text());
       return result.response.text();
     },
   });
