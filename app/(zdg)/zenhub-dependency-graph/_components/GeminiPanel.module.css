@@ -7,6 +7,16 @@
   gap: 1rem;
 }
 
+.chatEntryDivider {
+  height: 1px;
+  background: linear-gradient(
+    to right,
+    rgb(226, 232, 240, 0),
+    rgb(226, 232, 240, 1),
+    rgb(226, 232, 240, 0)
+  ); /* --chakra-colors-gray-200 */
+}
+
 .messageBox {
   display: flex;
   gap: 1rem;
@@ -28,4 +38,10 @@
   background-color: #3182ce; /* --chakra-colors-blue-500 */
   color: white;
   cursor: pointer;
+}
+
+.messageBox button:disabled {
+  background-color: #cbd5e0; /* --chakra-colors-gray-300 */
+  color: #a0aec0; /* --chakra-colors-gray-500 */
+  cursor: not-allowed;
 }
