@@ -14,7 +14,7 @@ type GraphData = object[]; // TODO: Fix type.
 
 export function GeminiPanel({ graphData }: { graphData: GraphData }) {
   const session = useSession();
-  if (!session) {
+  if (!session.data) {
     return <p>⚠️ Please sign in to use this feature.</p>;
   }
 
