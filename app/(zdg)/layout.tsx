@@ -3,7 +3,7 @@ import { Suspense } from "react";
 
 export const metadata: Metadata = {
   title: "Zenhub Dependency Graph",
-  description: "Mind blowing, psychedelic visuals for ZenHub.",
+  description: "Visualize dependencies between Zenhub issues.",
 };
 
 export default function RootLayout({
