@@ -26,6 +26,8 @@ export function GeminiPanel({ graphData }) {
 
   // TODO: Fix epicGraphData type.
   const queryEpic = useDebouncedCallback(async (epicGraphData) => {
+    setLatestChatEntry(null);
+
     console.log("graphData", epicGraphData);
 
     const query = ""; // TODO: Get query from user input.
@@ -54,9 +56,23 @@ export function GeminiPanel({ graphData }) {
     <div className={`${styles.container} zdg-chat-container`}>
       {!latestChatEntry && <p>⏳ loading...</p>}
       {latestChatEntry && (
-        <Markdown remarkPlugins={[remarkGfm]}>
-          {latestChatEntry.response}
-        </Markdown>
+        <>
+          <Markdown remarkPlugins={[remarkGfm]}>
+            {latestChatEntry.response}
+          </Markdown>
+          <div className={styles.messageBox}>
+            <textarea
+              placeholder="Tell me more..."
+              onKeyDown={(event) => {
+                if (event.key === "Enter" && !event.shiftKey) {
+                  event.preventDefault();
+                  console.log("Enter pressed");
+                }
+              }}
+            ></textarea>
+            <button aria-label="Enter">&#9166;</button>
+          </div>
+        </>
       )}
     </div>
   );
