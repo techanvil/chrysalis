@@ -1,0 +1,3 @@
+[submodule "zenhub-dependency-graph"]
+	path = zenhub-dependency-graph
+	url = https://github.com/techanvil/zenhub-dependency-graph.git
