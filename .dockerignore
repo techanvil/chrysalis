@@ -1,0 +1,12 @@
+# Initially copied from https://github.com/vercel/next.js/blob/68a71289b3a7eca1fa9865bf49a92590faa9c6c0/examples/with-docker/.dockerignore
+# See https://github.com/vercel/next.js/tree/canary/examples/with-docker
+
+Dockerfile
+.dockerignore
+node_modules
+npm-debug.log
+README.md
+.next
+!.next/static
+!.next/standalone
+.git
