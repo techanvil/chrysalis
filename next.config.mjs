@@ -5,6 +5,8 @@ const nextConfig = {
       fullUrl: true,
     },
   },
+  // productionBrowserSourceMaps: true,
+  output: "standalone",
 };
 
 export default nextConfig;

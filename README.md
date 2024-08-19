@@ -1,5 +1,7 @@
 ### Notes
 
+#### Zenhub Dependency Graph
+
 This currently requires the use of `npm link` in order to build with the integrated [Zenhub Dependency Graph](https://github.com/techanvil/zenhub-dependency-graph/).
 
 ```sh
@@ -8,6 +10,13 @@ This currently requires the use of `npm link` in order to build with the integra
 npm link ../zenhub-dependency-graph
 cd ../zenhub-dependency-graph
 npm link ../chrysalis/node_modules/react
+```
+
+#### Docker
+
+```sh
+docker build -t nextjs-docker .
+docker run -p 3000:3000 nextjs-docker
 ```
 
 ---

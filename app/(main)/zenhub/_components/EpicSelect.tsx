@@ -3,8 +3,11 @@
 import { use, Suspense } from "react";
 import { ErrorBoundary } from "react-error-boundary";
 import { useParams, useRouter } from "next/navigation";
+import { getAllEpics } from "../_data/graph-data";
 
-export function EpicSelect({ epicsPromise }) {
+type EpicsPromise = ReturnType<typeof getAllEpics>;
+
+export function EpicSelect({ epicsPromise }: { epicsPromise: EpicsPromise }) {
   return (
     <ErrorBoundary fallback={<p>⚠️ something went wrong</p>}>
       <Suspense fallback={<span>⏳ fetching epics...</span>}>
@@ -14,7 +17,7 @@ export function EpicSelect({ epicsPromise }) {
   );
 }
 
-function EpicSelectMain({ epicsPromise }) {
+function EpicSelectMain({ epicsPromise }: { epicsPromise: EpicsPromise }) {
   const { epic } = useParams<{ epic: string }>(); // `epic` is the epic issue number.
 
   const router = useRouter();

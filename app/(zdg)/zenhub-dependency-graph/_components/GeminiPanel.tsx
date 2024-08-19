@@ -43,8 +43,8 @@ export function GeminiPanel({ graphData }: { graphData: GraphData }) {
         },
       ]);
     }
-  }, [graphData]); // Omit debouncedQueryEpic to avoid infinite loop.
-  // }, [graphData, debouncedQueryEpic]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- Omit chatHistory/debouncedQueryEpic to avoid infinite loop.
+  }, [graphData]); //
 
   useEffect(() => {
     // Scroll the top of the latest chat entry to the top of the scrollable element.

@@ -10,3 +10,5 @@ README.md
 !.next/static
 !.next/standalone
 .git
+
+notes-internal.md
