@@ -10,7 +10,10 @@
     "lint": "next lint",
     "generate": "graphql-codegen --config codegen.ts",
     "predev": "npm run generate",
-    "prebuild": "npm run generate"
+    "prebuild": "npm run generate",
+    "docker:build": "docker build -t chrysalis-docker .",
+    "docker:tag": "docker tag chrysalis-docker $DOCKER_REGISTRY:chrysalis-docker",
+    "docker:push": "docker push $DOCKER_REGISTRY:chrysalis-docker"
   },
   "dependencies": {
     "@google/generative-ai": "^0.16.0",
