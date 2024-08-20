@@ -9,14 +9,10 @@ FROM base AS deps
 RUN apk add --no-cache libc6-compat
 WORKDIR /app
 
-RUN ls -la
 COPY zenhub-dependency-graph ./zenhub-dependency-graph
-RUN ls -la
 # RUN cd zenhub-dependency-graph && npm ci && npm link
 RUN cd zenhub-dependency-graph && npm ci
 COPY package.json package-lock.json ./
-RUN pwd
-RUN ls -la
 RUN npm ci
 # RUN npm link zenhub-dependency-graph
 RUN npm link ./zenhub-dependency-graph
