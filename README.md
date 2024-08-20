@@ -4,19 +4,31 @@
 
 This currently requires the use of `npm link` in order to build with the integrated [Zenhub Dependency Graph](https://github.com/techanvil/zenhub-dependency-graph/).
 
-```sh
-# Assuming the repos are cloned in the same directory:
+The `zenhub-dependency-graph` repository is a Git submodule of this repo.
 
-npm link ../zenhub-dependency-graph
-cd ../zenhub-dependency-graph
-npm link ../chrysalis/node_modules/react
+```sh
+# Clone the repo with --recurse-submodules
+git clone --recurse-submodules
+# Or, if you have already cloned it:
+git submodule update --init
+
+npm link ./zenhub-dependency-graph
+cd ./zenhub-dependency-graph
+npm link ./chrysalis/node_modules/react
+
+# Pulling changes for a clone of this repo:
+git pull --recurse-submodules
+
+# Pulling zenhub-dependency-graph changes into this repo:
+git submodule update --remote
+git add zenhub-dependency-graph && git commit
 ```
 
 #### Docker
 
 ```sh
-docker build -t nextjs-docker .
-docker run -p 3000:3000 nextjs-docker
+docker build -t chrysalis-docker .
+docker run -p 3000:3000 chrysalis-docker
 ```
 
 ---
