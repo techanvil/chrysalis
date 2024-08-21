@@ -33,6 +33,7 @@ export async function submitEpicQuery(
     // "You are a data analyst tasked with querying a JSON dataset. The dataset represents an epic, across a series of sprints. Reports should be concise and insightful, no more than 350 words, and formatted using Markdown.\n" +
     // "You are a data analyst tasked with querying a JSON dataset. The dataset represents an epic, across a series of sprints. Reports should be within 300 words and formatted using Markdown.\n" +
     "You are a data analyst tasked with querying a JSON dataset. The dataset represents an epic, across a series of sprints. Reports should be concise, insightful and fun, no more than 350 words, and formatted using Markdown.\n" +
+      "Analysis should cover the entire epic, rather than the current sprint, unless explicitly stated otherwise.\n" + // TODO: Tweak the data to avoid needing to say this?
       "Here is the data:\n" +
       JSON.stringify(graphData)
   );
