@@ -8,7 +8,7 @@ The `zenhub-dependency-graph` repository is a Git submodule of this repo.
 
 ```sh
 # Clone the repo with --recurse-submodules
-git clone --recurse-submodules
+git clone --recurse-submodules https://github.com/techanvil/chrysalis.git
 # Or, if you have already cloned it:
 git submodule update --init
 
