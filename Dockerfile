@@ -10,11 +10,9 @@ RUN apk add --no-cache libc6-compat
 WORKDIR /app
 
 COPY zenhub-dependency-graph ./zenhub-dependency-graph
-# RUN cd zenhub-dependency-graph && npm ci && npm link
 RUN cd zenhub-dependency-graph && npm ci
 COPY package.json package-lock.json ./
 RUN npm ci
-# RUN npm link zenhub-dependency-graph
 RUN npm link ./zenhub-dependency-graph
 
 
@@ -54,7 +52,7 @@ COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
 COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
 
 # TODO: Better environment management
-COPY .env.local .
+COPY .env .
 
 USER nextjs
 
