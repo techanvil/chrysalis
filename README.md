@@ -2,6 +2,8 @@
 
 #### Zenhub Dependency Graph
 
+https://chrysalis.techanvil.com/zenhub-dependency-graph
+
 This currently requires the use of `npm link` in order to build with the integrated [Zenhub Dependency Graph](https://github.com/techanvil/zenhub-dependency-graph/).
 
 The `zenhub-dependency-graph` repository is a Git submodule of this repo.
