@@ -1,14 +1,17 @@
 import NextAuth from "next-auth";
 import Google from "next-auth/providers/google";
 
-const ALLOWED_DOMAINS = [
-  "techanvil.co.uk",
-  "10up.com",
-  "get10up.com",
-  "google.com",
-];
+const ALLOWED_DOMAINS = process.env.CHRYSALIS_ALLOWED_DOMAINS
+  ? process.env.CHRYSALIS_ALLOWED_DOMAINS.split(",")
+      .map((domain) => domain.trim())
+      .filter(Boolean)
+  : null;
 
 function isAllowedDomain(email: string): boolean {
+  if (ALLOWED_DOMAINS === null) {
+    return true;
+  }
+
   const domain = email.split("@")[1];
   return ALLOWED_DOMAINS.includes(domain);
 }

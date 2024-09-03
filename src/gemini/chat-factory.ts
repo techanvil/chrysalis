@@ -13,8 +13,9 @@ import { roughSizeOfObject } from "./utils";
 // } from '@google/generative-ai/server'; // TODO, maybe use context cache for subject data. https://ai.google.dev/gemini-api/docs/caching?lang=node
 
 const MAX_ROUGH_CHAT_SESSION_SIZE =
-  Number(process.env.MAX_ROUGH_CHAT_SESSION_SIZE) || 1024 * 1024; // 1 MiB
-const MAX_CHATS = Number(process.env.MAX_CHAT_SESSIONS) || 100;
+  Number(process.env.CHRYSALIS_MAX_ROUGH_CHAT_SESSION_SIZE) || 1024 * 1024; // 1 MiB
+const MAX_CHAT_SESSIONS =
+  Number(process.env.CHRYSALIS_MAX_CHAT_SESSIONS) || 100;
 
 const API_KEY = process.env.GEMINI_API_KEY;
 
@@ -132,7 +133,7 @@ function checkMaxChatSessions() {
     0
   );
 
-  if (chatCount < MAX_CHATS) {
+  if (chatCount < MAX_CHAT_SESSIONS) {
     console.log("Chat count:", chatCount);
     return;
   }

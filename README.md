@@ -45,8 +45,9 @@ AUTH_GOOGLE_ID=abc123.apps.googleusercontent.com # Google API client ID. See htt
 AUTH_GOOGLE_SECRET=abc123 # Google secret from client ID.
 
 GEMINI_API_KEY=abc123 # Gemini API key. See https://ai.google.dev/gemini-api/docs/api-key
-MAX_ROUGH_CHAT_SESSION_SIZE=1048576 # Max approximate size in bytes of a given chat history before it will be reset.
-MAX_CHATS=100 # Max number of active chats. When the limit is reached the least recently active chat will be reset.
+CHRYSALIS_MAX_ROUGH_CHAT_SESSION_SIZE=1048576 # Max approximate size in bytes of a given chat history before it will be reset.
+CHRYSALIS_MAX_CHAT_SESSIONS=100 # Max number of active chat sessions. When the limit is reached the least recently active chat will be reset.
+CHRYSALIS_ALLOWED_DOMAINS=foo.com,bar.org # Optional, comma separated list of domains. If specified, only users at these domains will be allowed to authenticate.
 
 # The ZenHub configuration is only needed for the /zenhub/epic page (under construction), not for the Zenhub Dependency Graph.
 ZENHUB_WORKSPACE_ID=abc123 # The workspace ID needs to be specified for now.
