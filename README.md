@@ -49,11 +49,14 @@ CHRYSALIS_MAX_ROUGH_CHAT_SESSION_SIZE=1048576 # Max approximate size in bytes of
 CHRYSALIS_MAX_CHAT_SESSIONS=100 # Max number of active chat sessions. When the limit is reached the least recently active chat will be reset.
 CHRYSALIS_ALLOWED_DOMAINS=foo.com,bar.org # Optional, comma separated list of domains. If specified, only users at these domains will be allowed to authenticate.
 
-# The ZenHub configuration is only needed for the /zenhub/epic page (under construction), not for the Zenhub Dependency Graph.
+# This ZenHub configuration is only needed for the /zenhub/epic page (under construction), not for the Zenhub Dependency Graph.
 ZENHUB_WORKSPACE_ID=abc123 # The workspace ID needs to be specified for now.
 ZENHUB_ENDPOINT_URL=https://api.zenhub.com/public/graphql/
 ZENHUB_API_KEY=zh_abc123 # ZenHub GraphQL API key. See https://developers.zenhub.com/graphql-api-docs/getting-started/index.html#authentication
 ```
+
+# Conversely, the REACT_APP prefixed variable is needed for the Zenhub Dependency Graph.
+REACT_APP_ZENHUB_ENDPOINT_URL=https://api.zenhub.com/public/graphql/
 
 ---
 
