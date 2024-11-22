@@ -52,9 +52,11 @@ import {
   // GET_ALL_ORGANIZATIONS,
   getAllEpicsQueryDocument,
 } from "./queries";
-import { GetEpicLinkedIssuesQuery } from "@/gql/graphql";
+import { ChrysalisGetEpicLinkedIssuesQuery } from "@/gql/graphql";
 
-type Issue = NonNullable<GetEpicLinkedIssuesQuery["linkedIssues"]>["nodes"][0];
+type Issue = NonNullable<
+  ChrysalisGetEpicLinkedIssuesQuery["linkedIssues"]
+>["nodes"][0];
 type ExtendedIssue = Issue & { isNonEpicIssue?: boolean };
 
 function getNonEpicIssues(
@@ -129,7 +131,7 @@ async function getAllIssues(
 
   const allIssues = [...issues, ...nonEpicIssuesFull].filter(
     (issue) => !!issue
-  );
+  ); // as ExtendedIssue[];
 
   return getAllIssues(allIssues, variables, appSettings);
 }
@@ -183,7 +185,7 @@ export async function getAllOrganizations(endpointUrl, zenhubApiKey, signal) {
     viewer: {
       zenhubOrganizations: { nodes: organizations },
     },
-  } = await gqlQuery(GET_ALL_ORGANIZATIONS, "GetAllOrganizations", {});
+  } = await gqlQuery(GET_ALL_ORGANIZATIONS, "ChrysalisGetAllOrganizations", {});
 
   return organizations.map((organization) => ({
     id: organization.id,
@@ -207,7 +209,7 @@ export async function getWorkspaces(
     viewer: {
       searchWorkspaces: { nodes: workspaces },
     },
-  } = await gqlQuery(GET_WORKSPACE_QUERY, "GetWorkSpace", {
+  } = await gqlQuery(GET_WORKSPACE_QUERY, "ChrysalisGetWorkSpace", {
     workspaceName,
   });
 
@@ -267,7 +269,7 @@ export async function getGraphData(
   //       nodes: [{ id: workspaceId }],
   //     },
   //   },
-  // } = await gqlQuery(GET_WORKSPACE_QUERY, "GetWorkSpace", {
+  // } = await gqlQuery(GET_WORKSPACE_QUERY, "ChrysalisGetWorkSpace", {
   //   workspaceName,
   // });
 
@@ -276,7 +278,7 @@ export async function getGraphData(
   //     defaultRepository: { id: repositoryId, ghId: repositoryGhId },
   //     pipelinesConnection: { nodes: pipelines },
   //   },
-  // } = await gqlQuery(GET_REPO_AND_PIPELINES_QUERY, "GetRepoAndPipelines", {
+  // } = await gqlQuery(GET_REPO_AND_PIPELINES_QUERY, "ChrysalisGetRepoAndPipelines", {
   //   workspaceId,
   // });
 

@@ -7,7 +7,7 @@
 import { graphql } from "@/gql";
 
 export const GET_WORKSPACE_QUERY = gql`
-  query GetWorkSpace($workspaceName: String!) {
+  query ChrysalisGetWorkSpace($workspaceName: String!) {
     viewer {
       searchWorkspaces(query: $workspaceName) {
         nodes {
@@ -33,7 +33,7 @@ export const GET_WORKSPACE_QUERY = gql`
 `;
 
 export const getRepoAndPipelinesQueryDocument = graphql(`
-  query GetRepoAndPipelines($workspaceId: ID!) {
+  query ChrysalisGetRepoAndPipelines($workspaceId: ID!) {
     workspace(id: $workspaceId) {
       defaultRepository {
         id
@@ -90,7 +90,7 @@ export const EpicIssue_IssueFragment = graphql(`
 */
 
 export const getEpicLinkedIssuesQueryDocument = graphql(`
-  query GetEpicLinkedIssues(
+  query ChrysalisGetEpicLinkedIssues(
     $workspaceId: ID!
     $repositoryId: ID!
     $repositoryGhId: Int!
@@ -148,7 +148,7 @@ export const getEpicLinkedIssuesQueryDocument = graphql(`
 `);
 
 export const getIssueByNumberQueryDocument = graphql(`
-  query GetIssueByNumber(
+  query ChrysalisGetIssueByNumber(
     $workspaceId: ID!
     $repositoryGhId: Int!
     $issueNumber: Int!
@@ -164,11 +164,6 @@ export const getIssueByNumberQueryDocument = graphql(`
           # name
         }
       }
-      pipelineIssue(workspaceId: $workspaceId) {
-        pipeline {
-          name
-        }
-      }
       blockingIssues {
         nodes {
           number
@@ -179,21 +174,26 @@ export const getIssueByNumberQueryDocument = graphql(`
           number
         }
       }
-      sprints {
-        nodes {
-          # id
+      pipelineIssue(workspaceId: $workspaceId) {
+        pipeline {
           name
         }
       }
       estimate {
         value
       }
+      sprints {
+        nodes {
+          # id
+          name
+        }
+      }
     }
   }
 `);
 
 export const GET_ALL_ORGANIZATIONS = gql`
-  query GetAllOrganizations {
+  query ChrysalisGetAllOrganizations {
     viewer {
       zenhubOrganizations {
         nodes {
@@ -212,7 +212,7 @@ export const GET_ALL_ORGANIZATIONS = gql`
 `;
 
 export const getAllEpicsQueryDocument = graphql(`
-  query GetAllEpics($workspaceId: ID!) {
+  query ChrysalisGetAllEpics($workspaceId: ID!) {
     workspace(id: $workspaceId) {
       epics {
         nodes {
