@@ -53,10 +53,10 @@ CHRYSALIS_ALLOWED_DOMAINS=foo.com,bar.org # Optional, comma separated list of do
 ZENHUB_WORKSPACE_ID=abc123 # The workspace ID needs to be specified for now.
 ZENHUB_ENDPOINT_URL=https://api.zenhub.com/public/graphql/
 ZENHUB_API_KEY=zh_abc123 # ZenHub GraphQL API key. See https://developers.zenhub.com/graphql-api-docs/getting-started/index.html#authentication
-```
 
-# Conversely, the REACT_APP prefixed variable is needed for the Zenhub Dependency Graph.
-REACT_APP_ZENHUB_ENDPOINT_URL=https://api.zenhub.com/public/graphql/
+# Conversely, the NEXT_PUBLIC prefixed variable is needed for the Zenhub Dependency Graph.
+NEXT_PUBLIC_ZENHUB_ENDPOINT_URL=https://api.zenhub.com/public/graphql/
+```
 
 ---
 
